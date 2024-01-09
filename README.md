@@ -21,7 +21,7 @@ You can try out the live demo [here](https://rzanrzal.github.io/IOS-Calculator-i
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/calculator-app.git
+   git clone https://github.com/rzanrzal/IOS-Calculator-in-JS
    ```
 
 2. Open the `index.html` file in your web browser.

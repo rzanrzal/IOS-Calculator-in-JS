@@ -1,0 +1,121 @@
+const numBtns = document.querySelectorAll('.numBtn');
+const resultScreen = document.querySelector('.resultScreen');
+const ac = document.querySelector('.acBtn');
+const operators = document.querySelectorAll('.operator');
+const equalBtn = document.querySelector('.equal');
+const dot = document.querySelector('.dot');
+const plusMinus = document.querySelector('.plus-minus');
+
+const limit = 9;
+let number = [];
+let isOperatorActive = false;
+let numbers = [];
+let activeOperator;
+let isAfterResult = false;
+
+const clearActive = function () {
+  for (const operator of operators) {
+    operator.classList.remove('activeOperator');
+    isOperatorActive = false;
+  }
+};
+
+const display = function () {
+  resultScreen.textContent = number.join('');
+};
+
+const clear = function () {
+  number = [];
+  display();
+  clearActive();
+  ac.textContent = 'AC';
+};
+
+const addition = function (a, b) {
+  return a + b;
+};
+const subtraction = function (a, b) {
+  return a - b;
+};
+const multiplication = function (a, b) {
+  return a * b;
+};
+const division = function (a, b) {
+  if (b !== 0) return a / b;
+  else return 'Błąd!';
+};
+
+const operation = function (type) {
+  if (type === 0) {
+    number = String(division(numbers[0], numbers[1])).split('');
+    display();
+  } else if (type === 1) {
+    number = String(multiplication(numbers[0], numbers[1])).split('');
+    display();
+  } else if (type === 2) {
+    number = String(subtraction(numbers[0], numbers[1])).split('');
+    display();
+  } else if (type === 3) {
+    number = String(addition(numbers[0], numbers[1])).split('');
+    display();
+  }
+};
+
+clear();
+
+for (const button of numBtns) {
+  button.addEventListener('click', function () {
+    if (number.length < limit) {
+      if (isAfterResult) {
+        clear();
+        isAfterResult = false;
+      }
+      if (!isOperatorActive) {
+        number.push(button.textContent);
+        display();
+      } else {
+        clear();
+        number.push(button.textContent);
+        display();
+      }
+    }
+    if (number.length > 0) ac.textContent = 'C';
+    clearActive();
+    numbers[1] = Number(resultScreen.textContent);
+  });
+}
+
+ac.addEventListener('click', function () {
+  clear();
+  numbers = [];
+});
+
+dot.addEventListener('click', function () {
+  if (!number.includes('.')) number.push('.');
+  display();
+});
+
+plusMinus.addEventListener('click', function () {
+  if (number[0] !== '-') {
+    number.unshift('-');
+  } else {
+    number.splice(0, 1);
+  }
+  display();
+});
+
+for (const [i, operator] of operators.entries()) {
+  operator.addEventListener('click', function () {
+    clearActive();
+    isOperatorActive = true;
+    operator.classList.add('activeOperator');
+    numbers[0] = Number(resultScreen.textContent);
+    activeOperator = i;
+  });
+}
+
+equalBtn.addEventListener('click', function () {
+  operation(activeOperator);
+  isAfterResult = true;
+  numbers = [Number(resultScreen.textContent)];
+});

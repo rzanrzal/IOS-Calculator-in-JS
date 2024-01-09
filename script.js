@@ -70,6 +70,7 @@ for (const key of keyboardKeys) {
     let keyValue = key.textContent;
     if (keyValue === ',') keyValue = '.';
     if (keyValue === '.' && screenValue.includes('.')) return;
+    if (screenValue.length >= 9) return;
 
     if (isAfterEquals) {
       clearScreen();

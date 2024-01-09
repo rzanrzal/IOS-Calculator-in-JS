@@ -14,7 +14,7 @@ This is a simple calculator web application built using HTML, CSS, and JavaScrip
 
 ## Demo
 
-You can try out the live demo [here]().
+You can try out the live demo [here](https://rzanrzal.github.io/IOS-Calculator-in-JS/).
 
 ## Installation
 

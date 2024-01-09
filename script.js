@@ -34,16 +34,15 @@ const clearScreen = function () {
   secondValue = null;
   operator = null;
   updateScreen();
-  removeActiveOperator();
+  removeActiveOperatorClass();
   isAfterEquals = false;
   clear.textContent = 'AC';
 };
 
-const removeActiveOperator = function () {
+const removeActiveOperatorClass = function () {
   mathOperators.forEach((operator) => {
     operator.classList.remove('active');
   });
-  console.log('removeActiveOperator()');
 };
 
 const toggleSign = function (value) {
@@ -89,7 +88,7 @@ for (const key of keyboardKeys) {
     if (operator === null) {
       firstValue = Number(screenValue);
     } else {
-      removeActiveOperator();
+      removeActiveOperatorClass();
       secondValue = Number(screenValue);
     }
 
@@ -105,7 +104,7 @@ for (const [i, operatorKey] of mathOperators.entries()) {
   operatorKey.addEventListener('click', function () {
     operator = i;
     screenValue = '0';
-    removeActiveOperator();
+    removeActiveOperatorClass();
     operatorKey.classList.add('active');
 
     if (isAfterEquals) {
@@ -127,7 +126,7 @@ equals.addEventListener('click', function () {
   firstValue = result;
   updateScreen();
   isAfterEquals = true;
-  removeActiveOperator();
+  removeActiveOperatorClass();
 });
 
 plusMinus.addEventListener('click', function () {

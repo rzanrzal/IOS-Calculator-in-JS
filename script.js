@@ -18,14 +18,17 @@ let firstValue = 0;
 let secondValue = null;
 let operator = null;
 let isAfterEquals = false;
-let history = [];
 
-const updateScreen = function () {
-  string = String(screenValue);
-  screen.textContent = string
+const display = function (message) {
+  screen.textContent = String(message)
     .replaceAll('.', ',')
     .replace('NaN', 'Błąd')
     .replace('Infinity', 'Błąd');
+};
+
+const updateScreen = function () {
+  string = String(screenValue);
+  display(string);
 };
 
 const clearScreen = function () {
@@ -102,6 +105,12 @@ for (const key of keyboardKeys) {
 
 for (const [i, operatorKey] of mathOperators.entries()) {
   operatorKey.addEventListener('click', function () {
+    if (secondValue !== null && operator !== null && !isAfterEquals) {
+      firstValue = operation(firstValue, secondValue, operator);
+      display(firstValue);
+      secondValue = null;
+    }
+
     operator = i;
     screenValue = '0';
     removeActiveOperatorClass();
@@ -120,7 +129,6 @@ equals.addEventListener('click', function () {
   if (operator === null || firstValue === null) return;
 
   let result = operation(firstValue, secondValue, operator);
-  console.log(result.toFixed(2));
 
   screenValue = String(result);
   firstValue = result;

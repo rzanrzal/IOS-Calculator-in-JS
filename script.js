@@ -26,17 +26,12 @@ const display = function (message) {
     .replace('Infinity', 'Błąd');
 };
 
-const updateScreen = function () {
-  string = String(screenValue);
-  display(string);
-};
-
 const clearScreen = function () {
   screenValue = '0';
   firstValue = 0;
   secondValue = null;
   operator = null;
-  updateScreen();
+  display(screenValue);
   removeActiveOperatorClass();
   isAfterEquals = false;
   clear.textContent = 'AC';
@@ -95,7 +90,7 @@ for (const key of keyboardKeys) {
       secondValue = Number(screenValue);
     }
 
-    updateScreen();
+    display(screenValue);
 
     if (screen.textContent.length > 0) {
       clear.textContent = 'C';
@@ -106,8 +101,9 @@ for (const key of keyboardKeys) {
 for (const [i, operatorKey] of mathOperators.entries()) {
   operatorKey.addEventListener('click', function () {
     if (secondValue !== null && operator !== null && !isAfterEquals) {
-      firstValue = operation(firstValue, secondValue, operator);
-      display(firstValue);
+      let result = operation(firstValue, secondValue, operator);
+      display(result);
+      firstValue = result;
       secondValue = null;
     }
 
@@ -132,7 +128,7 @@ equals.addEventListener('click', function () {
 
   screenValue = String(result);
   firstValue = result;
-  updateScreen();
+  display(screenValue);
   isAfterEquals = true;
   removeActiveOperatorClass();
 });
@@ -141,11 +137,11 @@ plusMinus.addEventListener('click', function () {
   screenValue = toggleSign(screenValue);
   firstValue = Number(screenValue);
 
-  updateScreen();
+  display(screenValue);
 });
 
 percent.addEventListener('click', function () {
   screenValue = String(screenValue / 100);
   firstValue = Number(screenValue);
-  updateScreen();
+  display(screenValue);
 });

@@ -58,7 +58,7 @@ body {
 
 .calculator {
   width: 100%;
-  max-width: 400px;
+  /* max-width: 400px; */
   /* min-height: 600px; */
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -104,6 +104,9 @@ body {
   border-radius: 50%;
   font-family: 'Poppins';
   font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn:active {
@@ -141,13 +144,49 @@ body {
 .btn--big {
   position: absolute;
   width: calc(200% + 10px);
-  aspect-ratio: 2/1;
+  height: 100%;
   border-radius: 82.5px;
   text-align: left;
   padding-left: 40%;
+  justify-content: flex-start;
 }
 
 .active {
   background-color: rgba(255, 255, 255, 1);
   color: rgba(255, 154, 0, 0.7);
+}
+
+@media screen and (width < 300px) {
+  html {
+    font-size: 10px;
+  }
+
+  .btn {
+    padding: 0;
+  }
+
+  .btn--big {
+    padding-left: 40%;
+  }
+}
+
+@media screen and (width > 300px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media screen and (width > 400px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media screen and (width > 400px) {
+  html {
+    font-size: 14px;
+  }
+  .calculator {
+    max-width: 400px;
+  }
 }

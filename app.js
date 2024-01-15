@@ -97,7 +97,7 @@ const handleKeyClick = (key) => {
 
   display(screenValue);
 
-  if (screen.textContent.length > 0) {
+  if (screen.textContent !== '0') {
     clear.textContent = 'C';
   }
 };

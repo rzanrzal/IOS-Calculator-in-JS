@@ -107,6 +107,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0;
 }
 
 .btn:active {
@@ -159,10 +160,6 @@ body {
 @media screen and (width < 300px) {
   html {
     font-size: 10px;
-  }
-
-  .btn {
-    padding: 0;
   }
 
   .btn--big {

@@ -147,7 +147,12 @@ const handleOperatorClick = (i, operatorKey) => {
     }
   }
 
-  if (firstValue !== null && secondValue !== null && lastOperator !== null) {
+  if (
+    firstValue !== null &&
+    secondValue !== null &&
+    lastOperator !== null &&
+    !isAfterEquals
+  ) {
     backup = { firstValue, secondValue, operator, lastOperator };
     console.log('zapisano backup');
     console.log(backup);

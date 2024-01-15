@@ -1,23 +1,31 @@
-const keyboardKeys = document.querySelectorAll('.keyboard__key');
-
-const mathOperators = document.querySelectorAll('.operator');
-
-const clear = document.querySelector('.clear');
-
-const equals = document.querySelector('.equals');
+//////////////////////////////////////////////////////////
+// Pobranie wartości
 
 const screen = document.querySelector('.screen');
-
+const keyboardKeys = document.querySelectorAll('.keyboard__key');
+const mathOperators = document.querySelectorAll('.operator');
+const clear = document.querySelector('.clear');
+const equals = document.querySelector('.equals');
 const plusMinus = document.querySelector('.plus-minus');
-
 const percent = document.querySelector('.percent');
 
-let screenValue = '0';
+//////////////////////////////////////////////////////////
+// Zmienne
 
+let screenValue = '0';
 let firstValue = 0;
 let secondValue = null;
+let tempValue = null;
 let operator = null;
+let lastOperator = null;
 let isAfterEquals = false;
+let result = null;
+let operatorGroup = null;
+let lastOperatorGroup = null;
+let backup = null;
+
+//////////////////////////////////////////////////////////
+// Funkcje
 
 const display = function (message) {
   screen.textContent = String(message)
@@ -31,10 +39,15 @@ const clearScreen = function () {
   firstValue = 0;
   secondValue = null;
   operator = null;
+  result = null;
+  tempValue = null;
+  lastOperator = null;
+  operatorChanged = false;
   display(screenValue);
   removeActiveOperatorClass();
   isAfterEquals = false;
   clear.textContent = 'AC';
+  backup = null;
 };
 
 const removeActiveOperatorClass = function () {
@@ -47,101 +60,186 @@ const toggleSign = function (value) {
   return value.includes('-') ? value.replace('-', '') : `-${value}`;
 };
 
-const operation = function (num1, num2, mathOperator) {
-  switch (mathOperator) {
-    case 0:
-      return num1 / num2;
-    case 1:
-      return num1 * num2;
-    case 2:
-      return num1 - num2;
-    case 3:
-      return num1 + num2;
-    default:
-      return 0;
+const operation = (num1, num2, mathOperator) => {
+  const operations = [num1 / num2, num1 * num2, num1 - num2, num1 + num2];
+  return operations[mathOperator] || 0;
+};
+
+const handleKeyClick = (key) => {
+  let keyValue = key.textContent;
+  if (keyValue === ',') keyValue = '.';
+  if (keyValue === '.' && screenValue.includes('.')) return;
+  if (screenValue.length >= 9) return;
+
+  if (isAfterEquals) {
+    clearScreen();
+  }
+
+  if (
+    (screenValue.startsWith('0') &&
+      keyValue !== '.' &&
+      !screenValue.startsWith('0.')) ||
+    (screenValue.startsWith('-0') &&
+      keyValue !== '.' &&
+      !screenValue.startsWith('-0.'))
+  ) {
+    screenValue = screenValue.replace('0', '');
+  }
+
+  screenValue += keyValue;
+
+  if (operator === null) {
+    firstValue = Number(screenValue);
+  } else {
+    removeActiveOperatorClass();
+    secondValue = Number(screenValue);
+  }
+
+  display(screenValue);
+
+  if (screen.textContent.length > 0) {
+    clear.textContent = 'C';
   }
 };
 
-for (const key of keyboardKeys) {
-  key.addEventListener('click', function () {
-    let keyValue = key.textContent;
-    if (keyValue === ',') keyValue = '.';
-    if (keyValue === '.' && screenValue.includes('.')) return;
-    if (screenValue.length >= 9) return;
+const handleOperatorClick = (i, operatorKey) => {
+  if (operator === 2 || operator === 3) {
+    lastOperator = operator;
+  }
+  operatorGroup = i < 2 ? 1 : 2;
 
-    if (isAfterEquals) {
-      clearScreen();
+  if (
+    tempValue !== null &&
+    firstValue !== null &&
+    secondValue !== null &&
+    operatorGroup === 1
+  ) {
+    let temp = operation(firstValue, secondValue, operator);
+    display(temp);
+    firstValue = temp;
+    secondValue = null;
+  }
+
+  if (
+    tempValue !== null &&
+    firstValue !== null &&
+    secondValue !== null &&
+    lastOperator !== null
+  ) {
+    let temp = operation(firstValue, secondValue, operator);
+    result = operation(tempValue, temp, lastOperator);
+    display(result);
+    tempValue = null;
+    firstValue = result;
+    secondValue = null;
+    lastOperator = null;
+    backup = null;
+  }
+
+  if (backup !== null && operatorGroup !== lastOperatorGroup) {
+    firstValue = backup.firstValue;
+    secondValue = backup.secondValue;
+    operator = backup.operator;
+    lastOperator = backup.lastOperator;
+    if (operatorGroup === 2 && tempValue !== null) {
+      tempValue = null;
+    } else if (operatorGroup === 2) {
     }
+  }
 
-    if (
-      screenValue.startsWith('0') &&
-      keyValue !== '.' &&
-      !screenValue.startsWith('0.')
-    ) {
-      screenValue = screenValue.replace('0', '');
-    }
+  if (firstValue !== null && secondValue !== null && lastOperator !== null) {
+    backup = { firstValue, secondValue, operator, lastOperator };
+    console.log('zapisano backup');
+    console.log(backup);
+  }
 
-    screenValue += keyValue;
-
-    if (operator === null) {
-      firstValue = Number(screenValue);
+  if (secondValue !== null && operator !== null && !isAfterEquals) {
+    if (operatorGroup === 1 && lastOperator !== null) {
+      display(secondValue);
+      tempValue = firstValue;
+      firstValue = secondValue;
+      secondValue = null;
     } else {
-      removeActiveOperatorClass();
-      secondValue = Number(screenValue);
-    }
-
-    display(screenValue);
-
-    if (screen.textContent.length > 0) {
-      clear.textContent = 'C';
-    }
-  });
-}
-
-for (const [i, operatorKey] of mathOperators.entries()) {
-  operatorKey.addEventListener('click', function () {
-    if (secondValue !== null && operator !== null && !isAfterEquals) {
-      let result = operation(firstValue, secondValue, operator);
+      result = operation(firstValue, secondValue, operator);
       display(result);
       firstValue = result;
       secondValue = null;
+      console.log('wykonano operacje');
     }
+  }
 
-    operator = i;
-    screenValue = '0';
-    removeActiveOperatorClass();
-    operatorKey.classList.add('active');
+  operator = i;
+  screenValue = '0';
+  removeActiveOperatorClass();
+  operatorKey.classList.add('active');
+  lastOperatorGroup = operatorGroup;
 
-    if (isAfterEquals) {
-      secondValue = null;
-      isAfterEquals = false;
-    }
-  });
-}
+  if (isAfterEquals) {
+    secondValue = null;
+    isAfterEquals = false;
+  }
+};
 
-clear.addEventListener('click', clearScreen);
-
-equals.addEventListener('click', function () {
+const handleEqualsClick = () => {
   if (operator === null || firstValue === null) return;
+  if (secondValue === null) secondValue = firstValue;
 
-  let result = operation(firstValue, secondValue, operator);
+  let localResult = operation(firstValue, secondValue, operator);
 
-  screenValue = String(result);
-  firstValue = result;
+  if (
+    tempValue !== null &&
+    firstValue !== null &&
+    secondValue !== null &&
+    lastOperator !== null
+  ) {
+    let temp = operation(firstValue, secondValue, operator);
+    localResult = operation(tempValue, temp, lastOperator);
+    tempValue = null;
+    lastOperator = null;
+  }
+
+  screenValue = String(localResult);
+  firstValue = localResult;
   display(screenValue);
   isAfterEquals = true;
   removeActiveOperatorClass();
-});
+};
 
-plusMinus.addEventListener('click', function () {
+const handlePlusMinusClick = () => {
+  let saved = screenValue;
   screenValue = toggleSign(screenValue);
-  firstValue = Number(screenValue);
+  if (firstValue === Number(saved) && secondValue === null) {
+    firstValue = Number(screenValue);
+  } else if (secondValue === Number(saved)) {
+    secondValue = Number(screenValue);
+  }
 
   display(screenValue);
-});
+};
 
-percent.addEventListener('click', function () {
+const handlePercentClick = () => {
   screenValue = String(screenValue / 100);
   firstValue = Number(screenValue);
   display(screenValue);
+};
+
+//////////////////////////////////////////////////////////
+// Nasłuchiwanie
+
+keyboardKeys.forEach((key) => {
+  key.addEventListener('click', () => handleKeyClick(key));
 });
+
+mathOperators.forEach((operatorKey, i) => {
+  operatorKey.addEventListener('click', () =>
+    handleOperatorClick(i, operatorKey)
+  );
+});
+
+clear.addEventListener('click', clearScreen);
+
+equals.addEventListener('click', handleEqualsClick);
+
+plusMinus.addEventListener('click', handlePlusMinusClick);
+
+percent.addEventListener('click', handlePercentClick);

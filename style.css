@@ -162,6 +162,10 @@ body {
   color: rgba(255, 154, 0, 0.7);
 }
 
+.plus-minus-img {
+  height: 2rem;
+}
+
 footer {
   position: absolute;
   bottom: 0;
@@ -169,7 +173,7 @@ footer {
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -190,7 +194,7 @@ footer a:hover .footer-link {
 
 @media screen and (width < 300px) {
   html {
-    font-size: 10px;
+    font-size: 16px;
   }
 
   .btn--big {
@@ -198,9 +202,15 @@ footer a:hover .footer-link {
   }
 }
 
-@media screen and (width > 300px) {
+@media screen and (width >= 300px) {
   html {
-    font-size: 12px;
+    font-size: 16px;
+  }
+}
+
+@media screen and (width >= 350px) {
+  html {
+    font-size: 18px;
   }
 }
 
@@ -233,14 +243,14 @@ footer a:hover .footer-link {
 
 @media screen and (width > 400px) {
   html {
-    font-size: 14px;
+    font-size: 20px;
   }
 }
 
 @media screen and (width > 430px) {
-  html {
+  /* html {
     font-size: 14px;
-  }
+  } */
   .calculator {
     max-width: 430px;
   }

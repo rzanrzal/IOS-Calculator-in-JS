@@ -2,6 +2,7 @@
 * {
   box-sizing: border-box;
   font-family: system-ui;
+  transition: 0.25s ease;
 }
 
 html {
@@ -97,7 +98,7 @@ body {
 .btn {
   width: 100%;
   aspect-ratio: 1/1;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.15);
   border: none;
   outline: none;
   color: #fff;
@@ -118,7 +119,7 @@ body {
 }
 
 .btn--orange {
-  background-color: rgba(255, 154, 0, 0.7);
+  background-color: hsla(36, 100%, 52%, 0.7);
 }
 
 .btn--orange:active {
@@ -202,9 +203,30 @@ footer a:hover .footer-link {
   }
 }
 
-@media screen and (width > 400px) {
-  html {
-    font-size: 14px;
+@media screen and (width <= 430px) {
+  body {
+    padding: 0;
+    padding-bottom: 80px;
+
+    background-color: #000;
+  }
+  .calculator {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-radius: 0;
+    min-height: 100dvh;
+    max-height: 760px;
+    box-shadow: none;
+    background-color: transparent;
+    padding-bottom: 30px;
+  }
+  .background {
+    display: none;
+  }
+  .calculator__result {
+    min-height: auto;
+    background-color: transparent;
   }
 }
 
@@ -212,7 +234,13 @@ footer a:hover .footer-link {
   html {
     font-size: 14px;
   }
+}
+
+@media screen and (width > 430px) {
+  html {
+    font-size: 14px;
+  }
   .calculator {
-    max-width: 400px;
+    max-width: 430px;
   }
 }

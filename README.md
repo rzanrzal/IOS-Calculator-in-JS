@@ -1,16 +1,30 @@
 # Calculator App
 
-![Calculator App](screenshot.png)
+![Calculator App](assets/screenshot.png)
 
 ## Overview
 
-This is a simple calculator web application built using HTML, CSS, and JavaScript. The design is inspired by the sleek and intuitive calculator app found on iOS devices.
+Welcome to the Vanilla JS iOS Calculator project! This solo endeavor aims to recreate the complete functionality of the iOS calculator in pure JavaScript, including advanced features like respecting mathematical operation precedence. Dive in to experience the versatility of JavaScript!
 
 ## Features
 
-- **Basic Arithmetic Operations**: Perform addition, subtraction, multiplication, and division.
-- **Responsive Design**: The calculator adapts to different screen sizes for a seamless user experience.
-- **iOS Style**: The design mimics the look and feel of the calculator app on iOS devices.
+1. **Basic Operations**: Perform basic mathematical operations like addition, subtraction, multiplication, and division.
+
+2. **Operation Precedence**: Advanced mathematical operation precedence is implemented. Multiplication and division are performed before addition and subtraction.
+
+3. **Interactive UI**: A fully interactive user interface with buttons for each digit, operation, and special functions like clear, equals, plus-minus, and percent.
+
+4. **Clear Functionality**: Clear the screen and reset all operations with the 'AC'/'C' button.
+
+5. **Plus-Minus Function**: Toggle the sign of the current number on the screen with the plus-minus button.
+
+6. **Percent Function**: Convert the current number on the screen to a percentage with the percent button.
+
+7. **Error Handling**: Graceful error handling that displays 'Błąd' when the result of an operation is not a number (NaN) or infinity.
+
+8. **Input Limit**: Restricts input to a maximum of 9 digits to prevent overflow.
+
+9. **Continued Operations**: Continue operations on the result after pressing equals.
 
 ## Demo
 

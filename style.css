@@ -70,6 +70,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
   overflow: hidden;
+  padding-bottom: 30px;
 }
 
 .calculator__result {
@@ -120,7 +121,7 @@ body {
 }
 
 .btn--orange {
-  background-color: hsla(36, 100%, 52%, 0.7);
+  background-color: hsla(36, 100%, 52%);
 }
 
 .btn--orange:active {
@@ -128,7 +129,7 @@ body {
 }
 
 .btn--grey {
-  background-color: rgba(165, 165, 165, 0.7);
+  background-color: rgba(165, 165, 165);
   color: #222;
 }
 
@@ -230,7 +231,6 @@ footer a:hover .footer-link {
     max-height: 760px;
     box-shadow: none;
     background-color: transparent;
-    padding-bottom: 30px;
   }
   .background {
     display: none;

@@ -28,10 +28,34 @@ let backup = null;
 // Funkcje
 
 const display = function (message) {
-  screen.textContent = String(message)
+  let displayMessage = String(message);
+
+  if (displayMessage.length >= 16 && displayMessage.includes('.')) {
+    displayMessage = String(Number(Number(displayMessage).toFixed(16)));
+  }
+
+  displayMessage = displayMessage
     .replaceAll('.', ',')
     .replace('NaN', 'Błąd')
     .replace('Infinity', 'Błąd');
+
+  const fontSizeMap = {
+    7: '3.7rem',
+    8: '3.6rem',
+    9: '3.5rem',
+    10: '3.4rem',
+    11: '3.3rem',
+    12: '3.2rem',
+  };
+
+  const length = displayMessage.length;
+  if (length >= 7) {
+    screen.style.fontSize = fontSizeMap[length] || '2.2rem';
+  } else {
+    screen.style.fontSize = '4rem';
+  }
+
+  screen.textContent = displayMessage;
 };
 
 const clearScreen = function () {
@@ -62,14 +86,18 @@ const toggleSign = function (value) {
 
 const operation = (num1, num2, mathOperator) => {
   const operations = [num1 / num2, num1 * num2, num1 - num2, num1 + num2];
-  return operations[mathOperator] || 0;
+  return operations[mathOperator] ?? 0;
 };
 
 const handleKeyClick = (key) => {
   let keyValue = key.textContent;
   if (keyValue === ',') keyValue = '.';
   if (keyValue === '.' && screenValue.includes('.')) return;
-  if (screenValue.length >= 9) return;
+  if (
+    (screenValue.length >= 9 && !screenValue.includes('.')) ||
+    (screenValue.length >= 10 && screenValue.includes('.'))
+  )
+    return;
 
   if (isAfterEquals) {
     clearScreen();
@@ -136,6 +164,16 @@ const handleOperatorClick = (i, operatorKey) => {
     backup = null;
   }
 
+  if (
+    firstValue !== null &&
+    lastOperatorGroup === 2 &&
+    secondValue !== null &&
+    backup !== null
+  ) {
+    backup = null;
+    console.log('usunieto backup');
+  }
+
   if (backup !== null && operatorGroup !== lastOperatorGroup) {
     firstValue = backup.firstValue;
     secondValue = backup.secondValue;
@@ -199,6 +237,7 @@ const handleEqualsClick = () => {
   ) {
     let temp = operation(firstValue, secondValue, operator);
     localResult = operation(tempValue, temp, lastOperator);
+
     tempValue = null;
     lastOperator = null;
   }

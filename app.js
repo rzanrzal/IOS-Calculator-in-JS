@@ -31,7 +31,7 @@ const display = function (message) {
   let displayMessage = String(message);
 
   if (displayMessage.length >= 16 && displayMessage.includes('.')) {
-    displayMessage = String(Number(Number(displayMessage).toFixed(16)));
+    displayMessage = String(Number(Number(displayMessage).toFixed(14)));
   }
 
   displayMessage = displayMessage
@@ -66,12 +66,12 @@ const clearScreen = function () {
   result = null;
   tempValue = null;
   lastOperator = null;
-  operatorChanged = false;
   display(screenValue);
   removeActiveOperatorClass();
   isAfterEquals = false;
   clear.textContent = 'AC';
   backup = null;
+  // console.clear();
 };
 
 const removeActiveOperatorClass = function () {
@@ -136,16 +136,17 @@ const handleOperatorClick = (i, operatorKey) => {
   }
   operatorGroup = i < 2 ? 1 : 2;
 
-  if (
-    tempValue !== null &&
-    firstValue !== null &&
-    secondValue !== null &&
-    operatorGroup === 1
-  ) {
-    let temp = operation(firstValue, secondValue, operator);
-    display(temp);
-    firstValue = temp;
-    secondValue = null;
+  if (tempValue !== null && firstValue !== null && secondValue !== null) {
+    if (operatorGroup === 1) {
+      let temp = operation(firstValue, secondValue, operator);
+      display(temp);
+      firstValue = temp;
+      secondValue = null;
+    } else if (operatorGroup === 2) {
+      backup = { firstValue, secondValue, operator, lastOperator };
+      // console.log(`zapisano backup:`);
+      // console.log(backup);
+    }
   }
 
   if (
@@ -171,7 +172,7 @@ const handleOperatorClick = (i, operatorKey) => {
     backup !== null
   ) {
     backup = null;
-    console.log('usunieto backup');
+    // console.log('usunieto backup');
   }
 
   if (backup !== null && operatorGroup !== lastOperatorGroup) {
@@ -192,8 +193,8 @@ const handleOperatorClick = (i, operatorKey) => {
     !isAfterEquals
   ) {
     backup = { firstValue, secondValue, operator, lastOperator };
-    console.log('zapisano backup');
-    console.log(backup);
+    // console.log('zapisano backup');
+    // console.log(backup);
   }
 
   if (secondValue !== null && operator !== null && !isAfterEquals) {
@@ -207,7 +208,6 @@ const handleOperatorClick = (i, operatorKey) => {
       display(result);
       firstValue = result;
       secondValue = null;
-      console.log('wykonano operacje');
     }
   }
 

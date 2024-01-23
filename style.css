@@ -2,7 +2,7 @@
 * {
   box-sizing: border-box;
   font-family: system-ui;
-  transition: 0.25s ease;
+
   touch-action: manipulation;
 }
 
@@ -13,52 +13,29 @@ html {
 body {
   position: relative;
   padding: 0 10px;
-  padding-bottom: 80px;
   margin: 0;
 
-  /* overflow: hidden; */
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #111;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(148 163 184 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+  background: hsl(0 0% 6%);
 }
 
-.background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-  overflow: hidden;
-  margin-bottom: -80px;
-}
-
-.elipse1 {
-  position: absolute;
-  width: 500px;
-  aspect-ratio: 1/1;
-  background-color: rgba(244, 114, 182, 0.2);
-  left: 25%;
+body::before {
+  --line: hsl(0 0% 95% / 0.15);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: linear-gradient(90deg, var(--line) 1px, transparent 1px 10vmin) 0 -5vmin /
+      10vmin 10vmin,
+    linear-gradient(var(--line) 1px, transparent 1px 10vmin) 0 -5vmin / 10vmin 10vmin;
+  mask: linear-gradient(0deg, transparent 30%, white);
   top: 0;
-  border-radius: 50%;
-  transform: translateX(-50%) translateY(-70%);
-  filter: blur(200px);
   z-index: -1;
-}
-
-.elipse2 {
-  position: absolute;
-  width: 500px;
-  aspect-ratio: 1/1;
-  background-color: rgba(0, 217, 255, 0.2);
-  left: 50%;
-  bottom: 0;
-  border-radius: 50%;
-  transform: translateX(-50%) translateY(50%);
-  filter: blur(200px);
-  z-index: -1;
+  transform: translate3d(0, 0, -100vmin);
 }
 
 .calculator {
@@ -168,8 +145,6 @@ body {
 }
 
 footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   text-align: center;
   padding: 20px;
@@ -178,17 +153,17 @@ footer {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.footer-link {
+footer a {
   color: rgba(255, 255, 255, 0.5);
   fill: rgba(255, 255, 255, 0.5);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  transition: all 0.2s ease-in-out;
+  transition: 0.15s;
 }
 
-footer a:hover .footer-link {
+footer a:hover {
   color: rgba(255, 255, 255, 0.7);
   fill: rgba(255, 255, 255, 0.7);
 }

@@ -13,6 +13,7 @@ html {
 body {
   position: relative;
   padding: 0 10px;
+  padding-bottom: 2rem;
   margin: 0;
 
   display: flex;
@@ -145,12 +146,21 @@ body::before {
 }
 
 footer {
-  width: 100%;
-  text-align: center;
-  padding: 20px;
   box-sizing: border-box;
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer p {
+  margin: 0;
 }
 
 footer a {
